@@ -4,10 +4,18 @@ import { createServer } from "node:http";
 import { Server } from "socket.io";
 import { rollAttack, rollDamage, rollNotation } from "./dice.js";
 import { createAIProvider, type AIMessage } from "./ai/index.js";
+import { CombatTracker } from "./combat/tracker.js";
+import { createCombatRouter } from "./combat/routes.js";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+const httpServer = createServer(app);
+const io = new Server(httpServer, { cors: { origin: "*" } });
+const combatTracker = new CombatTracker();
+
+app.use("/api/combat", createCombatRouter(io, combatTracker));
 
 app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });
@@ -42,16 +50,10 @@ app.post("/api/dice/damage", (req, res) => {
   res.json(rollDamage(notation, isCrit));
 });
 
-const httpServer = createServer(app);
-const io = new Server(httpServer, { cors: { origin: "*" } });
-
 io.on("connection", (socket) => {
   socket.on("join-session", (sessionId: string) => {
     socket.join(sessionId);
-  });
-
-  socket.on("cue-turn", (sessionId: string, payload: unknown) => {
-    io.to(sessionId).emit("cue-turn", payload);
+    socket.emit("combat-update", combatTracker.getState(sessionId));
   });
 });
 
