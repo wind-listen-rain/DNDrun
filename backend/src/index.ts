@@ -6,6 +6,8 @@ import { rollAttack, rollDamage, rollNotation } from "./dice.js";
 import { createAIProvider, type AIMessage } from "./ai/index.js";
 import { CombatTracker } from "./combat/tracker.js";
 import { createCombatRouter } from "./combat/routes.js";
+import { CharacterStore } from "./characters/store.js";
+import { createCharacterRouter } from "./characters/routes.js";
 
 const app = express();
 app.use(cors());
@@ -16,6 +18,9 @@ const io = new Server(httpServer, { cors: { origin: "*" } });
 const combatTracker = new CombatTracker();
 
 app.use("/api/combat", createCombatRouter(io, combatTracker));
+
+const characterStore = new CharacterStore(process.env.CHARACTER_DB ?? "data/characters.json");
+app.use("/api/characters", createCharacterRouter(characterStore));
 
 app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });

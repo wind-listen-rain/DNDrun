@@ -166,6 +166,190 @@ button.primary:hover:not(:disabled) {
   background: var(--accent);
 }
 
+/* ---- 标签页 ---- */
+.tabs {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.tab {
+  border: none;
+  background: none;
+  color: var(--text-dim);
+  padding: 0.4em 1em;
+  border-radius: 6px 6px 0 0;
+  border-bottom: 2px solid transparent;
+  font-size: 0.95rem;
+}
+
+.tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ---- 角色卡 ---- */
+.character-page {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 1.2rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .character-page {
+    grid-template-columns: 1fr;
+  }
+}
+
+.notice-toast {
+  grid-column: 1 / -1;
+  background: rgba(90, 138, 74, 0.18);
+  border: 1px solid var(--green);
+  color: #b4d8a6;
+  padding: 0.6em 1em;
+  border-radius: 6px;
+}
+
+.char-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem 0.8rem;
+  margin-bottom: 0.9rem;
+}
+
+.char-form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+
+.char-form-grid .span-2 {
+  grid-column: 1 / -1;
+}
+
+.ability-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-bottom: 0.5rem;
+}
+
+.ability-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+}
+
+@media (max-width: 700px) {
+  .ability-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.ability-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  background: #1e1a15;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 0.5rem 0.3rem;
+}
+
+.ability-box input {
+  width: 3.2em;
+  text-align: center;
+}
+
+.ability-name {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.ability-mod {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.notes-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  margin-bottom: 0.9rem;
+}
+
+.form-actions {
+  justify-content: flex-end;
+}
+
+.character-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.character-card {
+  background: #1e1a15;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 0.7rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.char-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.char-head strong {
+  font-size: 1.05rem;
+}
+
+.char-sub {
+  color: var(--text-dim);
+  font-size: 0.82rem;
+}
+
+.char-stats {
+  display: flex;
+  gap: 0.9rem;
+  font-size: 0.85rem;
+  color: var(--crit);
+}
+
+.char-abilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.9rem;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.char-notes {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  white-space: pre-wrap;
+  border-left: 2px solid var(--panel-border);
+  padding-left: 0.6em;
+}
+
 /* ---- 先攻追踪 ---- */
 .combat-status {
   display: flex;

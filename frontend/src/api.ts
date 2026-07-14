@@ -22,6 +22,32 @@ export interface AIMessage {
   content: string;
 }
 
+export interface AbilityScores {
+  str: number;
+  dex: number;
+  con: number;
+  int: number;
+  wis: number;
+  cha: number;
+}
+
+export interface Character {
+  id: string;
+  name: string;
+  race: string;
+  className: string;
+  level: number;
+  background: string;
+  abilities: AbilityScores;
+  maxHp: number;
+  ac: number;
+  notes: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type CharacterInput = Omit<Character, "id" | "createdAt" | "updatedAt">;
+
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${BACKEND_URL}${path}`, {
     headers: { "Content-Type": "application/json" },
@@ -95,4 +121,20 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ messages }),
     }),
+
+  listCharacters: () => request<Character[]>("/api/characters"),
+
+  createCharacter: (input: CharacterInput) =>
+    request<Character>("/api/characters", { method: "POST", body: JSON.stringify(input) }),
+
+  updateCharacter: (id: string, input: Partial<CharacterInput>) =>
+    request<Character>(`/api/characters/${id}`, { method: "PUT", body: JSON.stringify(input) }),
+
+  deleteCharacter: async (id: string) => {
+    const res = await fetch(`${BACKEND_URL}/api/characters/${id}`, { method: "DELETE" });
+    if (!res.ok && res.status !== 204) throw new Error(`删除失败: ${res.status}`);
+  },
+
+  rollAbilities: () =>
+    request<{ scores: number[] }>("/api/characters/roll-abilities", { method: "POST" }),
 };
