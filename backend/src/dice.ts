@@ -23,7 +23,8 @@ export function rollAttack({ modifier, advantage, disadvantage }: AttackRollOpti
   const useKeep = advantage && !disadvantage ? "kh1" : !advantage && disadvantage ? "kl1" : "";
   const notation = useKeep ? `2d20${useKeep}+${modifier}` : `1d20+${modifier}`;
   const roll = new DiceRoll(notation);
-  const rolls = roll.rolls[0].rolls.map((r: any) => r.value ?? r);
+  const rollGroup = roll.rolls[0] as { rolls: Array<{ value: number }> };
+  const rolls = rollGroup.rolls.map((r) => r.value);
 
   return {
     notation,

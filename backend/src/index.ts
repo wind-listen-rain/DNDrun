@@ -3,6 +3,7 @@ import cors from "cors";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import { rollAttack, rollDamage, rollNotation } from "./dice.js";
+import { createAIProvider, type AIMessage } from "./ai/index.js";
 
 const app = express();
 app.use(cors());
@@ -10,6 +11,16 @@ app.use(express.json());
 
 app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });
+});
+
+app.post("/api/ai/narrate", async (req, res) => {
+  const { messages } = req.body as { messages: AIMessage[] };
+  try {
+    const reply = await createAIProvider().chat(messages);
+    res.json({ reply });
+  } catch (err) {
+    res.status(502).json({ error: (err as Error).message });
+  }
 });
 
 app.post("/api/dice/roll", (req, res) => {
